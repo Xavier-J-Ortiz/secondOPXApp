@@ -7,17 +7,15 @@ function init(config) {
     config.requireProvider('cloudflare_cdn');
 }
 
-var round = 0;
-
-function lowestRTT(rtt) {
+function lowestRTT(rtt_info) {
     'use strict';
-    var aliases = Object.keys(rtt);
+    var aliases = Object.keys(rtt_info);
     var currentLowestRTT = Infinity;
     var answer = null;
     for (var alias in aliases) {
-        if (currentLowestRTT > rtt[alias].http_rtt){
+        if (currentLowestRTT > rtt_info[alias]['http_rtt']){
             answer = alias;
-            currentLowestRTT = rtt[alias].http_rtt;            
+            currentLowestRTT = rtt_info[alias]['http_rtt'];            
         }
     }
     return answer;
