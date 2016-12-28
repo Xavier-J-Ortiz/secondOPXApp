@@ -29,6 +29,7 @@ function onRequest(request, response) {
     var rtt = request.getProbe('http_rtt');
     var choiceCDN = lowestRTT(rtt);
     if (choiceCDN === 'akamai_object_delivery') {
+        response.setProvider('akamai_object_delivery');
         // response.respond('akamai_object_delivery', '4.4.4.4');
         response.addARecord('1.1.1.1');
         response.addARecord('2.2.2.2');
