@@ -25,7 +25,7 @@ function lowestRTT(rtt_info) {
         var rtt_alias_now_number = rtt_alias_now.http_rtt;
         if (currentLowestRTT > rtt_alias_now_number){
             answer = rtt_alias_now;
-            currentLowestRTT = rtt_alias_now_number;        
+            currentLowestRTT = rtt_alias_now_number;     
         }
     }
     return answer;
