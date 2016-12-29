@@ -9,15 +9,7 @@ function init(config) {
 
 function lowestRTT(rtt_info) {
     'use strict';
-    var aliases = Object.keys(rtt_info);
-    var currentLowestRTT = 10000000;
-    var answer = null;
-    for (var alias in aliases) {
-        if (currentLowestRTT > rtt_info[alias].http_rtt){
-            answer = alias;
-            currentLowestRTT = rtt_info[alias].http_rtt;            
-        }
-    }
+    var answer = Object.keys(rtt_info).length; 
     return answer;
 }
 
@@ -26,7 +18,7 @@ function onRequest(request, response) {
     //looking for rtt of the providers stated above in init.
     var rtt = request.getProbe('http_rtt');
     var choiceCDN = lowestRTT(rtt);
-    if (choiceCDN == 'akamai_object_delivery') {
+    if (choiceCDN == 1) {
         response.setProvider('akamai_object_delivery');
         // response.respond('akamai_object_delivery', '4.4.4.4');
         response.addARecord('1.1.1.1');
@@ -34,17 +26,17 @@ function onRequest(request, response) {
         response.addARecord('3.3.3.3');
         response.addARecord('4.4.4.4');
         response.setTTL(20);
-    } else if (choiceCDN == 'aws_ec2_us_east_va') {
+    } else if (choiceCDN == 2) {
         // why is specifying the provider alias important?
         response.respond('aws_ec2_us_east_va', '8.8.8.8');
         response.setTTL(30);
-    } else if (choiceCDN == 'cloudflare_cdn') {
+    } else if (choiceCDN == 3) {
         //response.respond('akamai_object_delivery', '8.8.4.4');
         //response.setTTL(20);
         response.setProvider('cloudflare_cdn');
         response.addCName('bar.foo.com');
         response.setTTL(25);
-    } else if (choiceCDN == null) {
+    } else if (choiceCDN == 0) {
         response.respond('aws_ec2_us_east_va', '2.4.6.8');
         response.setTTL(40);
     }
